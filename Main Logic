@@ -1,0 +1,62 @@
+import java.util.Scanner;
+import java.util.ArrayList;
+
+
+public class test {
+    public static void main(String[] args) {
+        Boolean running = true;
+        Boolean validInput = false;
+        Scanner scanner = new Scanner(System.in);
+        String action = "";
+        System.out.println("Welcome to the Bank App!");
+        System.out.println("Please enter your name.");
+        String name = scanner.nextLine();
+
+        System.out.println("Please enter your account number.");
+        String number = scanner.nextLine();
+        bankAccount account = new bankAccount(number, name);
+        System.out.println("Welcome " + name);
+
+        while (running) {
+            validInput = false;
+            while (!validInput){
+                try{
+                    System.out.println("What would you like to do? (Deposit, Withdraw, View)");
+                    action = scanner.nextLine().toLowerCase();
+                    if (!action.equals("deposit") && !action.equals("withdraw") && !action.equals("view")){
+                        throw new IllegalArgumentException("Invalid choice. Please enter Deposit, Withdraw, or View.");
+                    } 
+                    validInput = true;
+                } catch (IllegalArgumentException e){
+                    System.out.println(e.getMessage());
+                }
+            }
+            switch (action) {
+                case "deposit":
+                    System.out.println("How much would you like to deposit?");
+                    Double depositAmount = scanner.nextDouble();
+                    account.deposit(depositAmount);
+                    scanner.nextLine();
+                    break;
+            
+                    case "withdraw":
+                    System.out.println("How much would you like to withdraw?");
+                    Double withdrawAmount = scanner.nextDouble();
+                    account.withdrawal(withdrawAmount);
+                    scanner.nextLine();
+                    break;
+
+                    case "view":
+                    account.displayAccountInfo();
+                }
+                System.out.println("Would you like to do something else? (y/n)");
+                String choice = scanner.nextLine().toLowerCase();
+                if (choice.equals("n")){
+                    running = false;
+                }
+            }
+            System.out.println("Thank you for using the Bank Account App!");
+            scanner.close();
+    }
+
+}
